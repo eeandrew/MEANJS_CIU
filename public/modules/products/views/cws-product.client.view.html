@@ -1,0 +1,70 @@
+<section data-ng-controller="ProductsController" data-ng-init="find();">
+    <div class='col-md-offset-1 col-md-10'>
+        <ul class='nav nav-pills'>
+            <li>
+                <h1 >{{productCode | uppercase}} </h1>
+            </li>
+
+            <li class='pull-right'>
+                <a class='nav-add'  href="/#!/products/create/{{productCode}}"><i class='glyphicon glyphicon-plus'></i></a>
+            </li>
+
+            <li class='pull-right'>
+                <input class='form-control nav-search' data-ng-model='searchKey' type='search' placeholder='Search...'></input>
+                <i class='glyphicon glyphicon-search inputSearch'></i>
+            </li>
+            
+        <ul>
+    </div>
+    <hr class='hrClear col-md-offset-1 col-md-10'/>
+    <div class="list-group col-md-offset-1 col-md-10">
+        <!--data-ng-href="#!/products/{{product.productCode}}/{{product.productVersion}}"-->
+        <alert data-ng-repeat='alert in alerts' type='{{alert.type}}' close='closeAlert($index)'>{{alert.msg}}</alert>
+
+        <ul class='nav'> 
+            <li data-ng-repeat="product in products | filter:searchKey | orderBy: '-productVersion'" class='list-group-item row' data-ng-init='initSocket(product)'>
+
+                <small class="list-group-item-text pull-left" >
+                    Updated on
+                    <span data-ng-bind="product.created | date:'medium'"></span>
+                    by
+                    <span data-ng-bind="product.user.displayName"></span>
+                </small>
+                <h4 class="list-group-item-heading pull-left clear"  data-ng-bind="product.productVersion"></h4>
+                <div class='pull-right'>
+                    <ul class='nav nav-pills'>
+                        <li>
+                            <a  data-ng-click="open('convertDlg',product)" class='pointer' data-ng-class='{disable: product.status==1}'>
+                                <i class='glyphicon glyphicon-play-circle '></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a  data-ng-href='products-{{productCode | lowercase}}/{{product.productVersion}}' target="_blank" data-ng-class='{disable: product.status==1}'>
+                                <i class='glyphicon glyphicon-folder-open '></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a  href="products/{{product._id}}/download" data-ng-class='{disable: product.status==1}'>
+                                <i class='glyphicon glyphicon-download-alt '></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a  data-ng-click="open('deleteDlg',product)" class='pointer' data-ng-class='{disable: product.status==1}'>
+                                <i class='glyphicon glyphicon-remove  remove-icon'></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="progress clear" data-ng-show='product.status === 1'>
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: {{product.finishedTasks/product.totalTasks*100}}%;">
+                         {{product.finishedTasks}}/{{product.totalTasks}}
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="alert alert-warning text-center col-md-offset-1 col-md-10" data-ng-hide="!products.$resolved || products.length">
+        No {{productCode | uppercase}} yet, why don't you <a href="/#!/products/create/{{productCode}}">create one</a>
+    </div>
+</section>

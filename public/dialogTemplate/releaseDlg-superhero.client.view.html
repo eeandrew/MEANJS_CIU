@@ -1,0 +1,27 @@
+	<div>
+		<div class='modal-header'>
+			<h4><i class='glyphicon glyphicon-send development'></i>&nbsp;Release {{$parent.superhero.version}}</h4>
+		</div>
+
+		<div class='modal-body'>
+			<h3>Are you sure to release this Version ?</h3>
+			<div class='form-group'>
+				 <label class='radio-inline' ng-click="test='development';formal='not-used'">
+				 	<input type='radio' value='test' ng-model='releaseType.releaseType'>
+				 		<i class='glyphicon glyphicon-fire' ng-class='test' popover="Release Updater for test purpose only" popover-trigger="mouseenter" ></i>
+				 	</input>
+				 </label>
+				 <label class='radio-inline' ng-click="test='not-used';formal='development'">
+				 	<input type='radio' value='formal' ng-model='releaseType.releaseType'>
+				 		<i class='glyphicon glyphicon-send' ng-class='formal' popover="Release Updater for production purpose" popover-trigger="mouseenter"></i>
+				 	</input>
+				 </label>
+			 </div>
+		</div>
+
+		<div class='modal-footer'>
+			<!--<form data-ng-submit="confirmRelease_()"  novalidate>-->
+			<button class='btn btn-black' type="submit" ng-click='confirmRelease_()'>OK Release</button>
+			</form>
+		</div>
+	</div>

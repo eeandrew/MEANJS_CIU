@@ -1,0 +1,88 @@
+<section data-ng-controller="SuperherosController" data-ng-init="find()">
+    <div class=" col-md-offset-1 col-md-10">
+        <ul class='nav nav-pills'>
+            <li>
+                <h1 >Updater </h1>
+            </li>
+
+            <li class='pull-right'>
+                <a class='nav-add'  href="/#!/superheros/create"><i class='glyphicon glyphicon-plus'></i></a>
+            </li>
+
+            <li class='pull-right'>
+                <input class='form-control nav-search' data-ng-model='searchKey' type='search' placeholder='Search...'></input>
+                <i class='glyphicon glyphicon-search inputSearch'></i>
+            </li>
+        <ul>
+    </div>
+    <hr class='hrClear col-md-offset-1 col-md-10'/>
+    <div class="list-group col-md-offset-1 col-md-10 ">
+        <a data-ng-repeat="superhero in superheros | filter:searchKey" data-ng-href="#!/superheros/{{superhero._id}}" class="list-group-item">
+            <figure>   
+                <div class='row'>
+                    <div class='col-md-offset-1'>
+            			<small class="list-group-item-text">
+            				Updated on
+            				<span data-ng-bind="superhero.created | date:'medium'"></span>
+            				by
+            				<span data-ng-bind="superhero.user.displayName"></span>
+            			</small>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-offset-1 col-md-1 circle-bg'>
+                        <h4 class="centered white"  data-ng-bind="superhero.version"></h4>
+                    </div>
+                    <div class='col-md-offset-1 col-md-8' style='margin-top:30px'>
+                        <div class='col-md-1 development col-center'>
+                        <i class='glyphicon glyphicon-leaf '></i><br/>
+                        <small >Development</small>
+                        </div>
+                        <div class='col-md-2 col-center'>
+                            <div 
+                            data-ng-class="{progressline:true,todo:superhero.testReleaseTimes<=0,success:superhero.testReleaseTimes>0}">
+                            </div>
+                        </div>
+                        <div class='col-md-1 col-center' data-ng-class="{development:superhero.testReleaseTimes>0}">
+                        <i class='glyphicon glyphicon-fire '></i><br/>
+                        <input type='text' ng-model='superhero.testReleaseTimes' class='counter' 
+                         data-ng-show='superhero.testReleaseTimes > 0'/>
+                        <small >Test</small>
+                        </div>
+                        <div class='col-md-2 col-center'>
+                            <div 
+                                data-ng-class="{progressline:true,todo:superhero.releaseTimes<=0,success:superhero.releaseTimes>0}">
+                            </div>
+                        </div>
+                        <div class='col-md-1 col-center' data-ng-class="{development:superhero.releaseTimes>0}">
+                        <i class='glyphicon glyphicon-send' ></i><br/>
+                        <input type='text' ng-model='superhero.releaseTimes' class='counter' 
+                         data-ng-show='superhero.releaseTimes > 0'/>
+                        <small class=''>Release</small>
+                        </div>
+                        <div class='col-md-2 col-center'>
+                        <div 
+                            data-ng-class="{progressline:true,todo:superhero.revokeTimes<=0,fail:superhero.revokeTimes>0}">
+                        </div>
+                        </div>
+                        <div class='col-md-1 col-center'>
+                        <i class='glyphicon glyphicon-flash' data-ng-class="{fail:superhero.revokeTimes>0}"></i><br/>
+                        <input type='text' ng-model='superhero.revokeTimes' class='counter' 
+                         data-ng-show='superhero.revokeTimes > 0'/>
+                        <small class=''>Revoke</small>
+                        </div>
+                         </div>
+                </div>
+                <figcaption>
+                    <h2>More</h2>
+                    <p>Get more information about this version</p>
+                </figcpation>
+            </figure>
+        </a>
+        
+    </div>
+    <div class="alert alert-warning text-center col-md-offset-1 col-md-10" data-ng-hide="!superheros.$resolved || superheros.length">
+    	No Updater yet, why don't you <a href="/#!/superheros/create">create one</a>
+    </div>
+
+</section>

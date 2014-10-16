@@ -1,0 +1,36 @@
+<section data-ng-controller="SuperherosController">
+    <div class="page-header col-md-offset-2 col-md-8">
+        <h1>New</h1>
+    </div>
+    <div class="col-md-offset-2 col-md-8">
+        <form class="form-horizontal" data-ng-submit="create()" novalidate>
+            <fieldset>
+                <div class="form-group">
+                    <!--Updater version Input Box-->
+                    <label class="control-label" for="version">Version</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="version" id="version" class="form-control"  required>
+                    </div>
+                    <!--Updater notifiee email Input Box-->
+                    <label class="control-label" for="notifiee">Notifiee</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="notifiee" id="notifiee" class="form-control" required/>
+                        </input>
+                    </div>
+                    <!--Updater comment input-->
+                   <label class="control-label" for="description">Description</label>
+                    <div class="controls">
+                        <textarea class="form-control" rows="3" id='description' data-ng-model='description' required></textarea>
+                    </div>
+                    
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="form-control btn btn-black" value='Submit'>
+                </div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+            </fieldset>
+        </form>
+    </div>
+</section>

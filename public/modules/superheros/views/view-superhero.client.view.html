@@ -1,0 +1,135 @@
+<section data-ng-controller="SuperherosController" class='row' data-ng-init="findOne();initSocket();">
+	<div class="col-md-offset-2 col-md-8  " >
+		<div class='row'>
+			<div class='col-md-4  '>
+				<h3 data-ng-bind="superhero.version" ></h3>
+
+			</div>
+			<div class='col-md-8'>
+				<div class='row' style='margin-top:40px'>
+					<div class='col-md-offset-2 col-md-1 col-center'>
+						<i class='glyphicon glyphicon-leaf  development'></i>
+					</div>
+					<div class='col-md-2 col-center'>
+						<div 
+							data-ng-class="{progressline:true,todo:superhero.testReleaseTimes<=0,success:superhero.testReleaseTimes>0}">
+						</div>
+					</div>
+					<div class='col-md-1 col-center'>
+						 <i class='glyphicon glyphicon-fire' data-ng-class="{development:superhero.testReleaseTimes>0}"></i>
+						 <input type='text' ng-model='superhero.testReleaseTimes' class='counter' 
+						 data-ng-show='superhero.testReleaseTimes > 0'/>
+					</div>
+					<div class='col-md-2 col-center'>
+						<div 
+							data-ng-class="{progressline:true,todo:superhero.releaseTimes<=0,success:superhero.releaseTimes>0}">
+						</div>
+					</div>
+					<div class='col-md-1 col-center'>
+						<i class='glyphicon glyphicon-send' data-ng-class="{development:superhero.releaseTimes>0}"></i>
+						 <input type='text' ng-model='superhero.releaseTimes' class='counter' 
+						 data-ng-show='superhero.releaseTimes > 0'/>
+					</div>
+					<div class='col-md-2 col-center'>
+						<div 
+							data-ng-class="{progressline:true,todo:superhero.revokeTimes<=0,fail:superhero.revokeTimes>0}">
+						</div>
+					</div>
+					<div class='col-md-1 col-center'>
+						<i class='glyphicon glyphicon-flash' data-ng-class="{fail:superhero.revokeTimes>0}"></i>
+						 <input type='text' ng-model='superhero.revokeTimes' class='counter' 
+						 data-ng-show='superhero.revokeTimes > 0'/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class='col-md-offset-2 col-md-8'>
+		<hr>
+	</div>
+	<div class='col-md-offset-2 col-md-8'>
+		 <div class='col-md-12'>
+		 		<!--sumarry table-->
+			<div class='table-border'>
+				<table class='table table-pretty'>
+					<thead>
+						<tr>
+							<th>StartDate</th>
+							<th>ScheduleDate</th>
+							<th>ReleaseDate</th>
+							<th>RevokeDate</th>
+							<th><i class='glyphicon glyphicon-info-sign'></i></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{{superhero.created | date: 'MM-dd-yyyy'}}</td>
+							<td>{{superhero.created | date: 'MM-dd-yyyy'}}</td>
+							<td>{{superhero.created | date: 'MM-dd-yyyy'}}</td>
+							<td>{{superhero.created | date: 'MM-dd-yyyy'}}</td>
+							<td>
+								<i class='glyphicon' 
+									data-ng-class="{'glyphicon-flash':superhero.revokeTimes > 0,'glyphicon-send': superhero.releaseTimes>0,'glyphicon-fire':superhero.testReleaseTimes>0,'glyphicon-leaf':superhero.testReleaseTimes<=0,'development':superhero.revokeTimes<=0,'fail':superhero.revokeTimes>0}">
+								</i>
+							</td>
+
+							<td><a data-ng-class='{disable:superhero.testReleaseTimes<=0}' data-ng-href='superheros/{{superheroId}}/download'><i class='glyphicon glyphicon-download-alt download'></i></a></td>
+
+							<td><a data-ng-class='{disable:superhero.testReleaseTimes<=0}' data-ng-href='updaters/{{superhero.version}}' target="_blank"><i class='glyphicon glyphicon-folder-open download'></i></a></td>
+						</tr>
+						<tr>
+							<td colspan='7' >
+								<div >
+									{{superhero.description}}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan='5'>
+								<small>
+									<em class="text-muted pull-right ">
+										Updated on
+										<span data-ng-bind="superhero.created | date:'mediumDate'"></span>
+										by
+										<span data-ng-bind="superhero.user.displayName"></span>
+									</em>
+								</small>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		 </div>
+
+		 <div class='row'>
+		 	<div class='col-md-12' >
+		 		<div class="progress" data-ng-hide=hideReleaseBar>
+	  				<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: {{convertedLine/infLineCount*100}}%;">
+	   					 {{convertedLine}}/{{infLineCount}}
+	  				</div>
+				</div>
+		 	</div>
+		</div>
+
+		<div class="row"  data-ng-show="authentication.user._id == superhero.user._id">
+			<div class='col-md-3'>
+				<a type='button' style='margin-top:10px' class='btn btn-black  form-control ' data-ng-click="open('deleteDlg')">
+					<i class='glyphicon glyphicon-trash development'></i>&nbsp;Delete</a>
+			</div>
+			<div class='col-md-3'>
+				<a type='button' style='margin-top:10px' class='btn btn-black  form-control' data-ng-click="open('releaseDlg')">
+					<i class='glyphicon glyphicon-send development'></i>&nbsp;Release</a>
+			</div>
+			<div class='col-md-3'>
+				<a type='button' style='margin-top:10px' class='btn btn-black  form-control'> <i class='glyphicon glyphicon-flash development'></i>&nbsp;Revoke</a>
+			</div>
+
+			<div class='col-md-3'>
+				<a type='button' style='margin-top:10px' href="/#!/superheros/{{superhero._id}}/edit" class='btn btn-black  form-control'>
+					<i class='glyphicon glyphicon-edit development'></i>&nbsp;Edit</a>
+			</div>
+		</div>
+	</div>
+
+</section>

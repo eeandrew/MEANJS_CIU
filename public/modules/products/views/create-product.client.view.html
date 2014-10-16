@@ -1,0 +1,62 @@
+<section data-ng-controller="ProductsController">
+    <div class="page-header col-md-offset-2 col-md-8">
+        <h1>New {{productCode | uppercase}}</h1>
+    </div>
+    <div class="col-md-offset-2 col-md-8">
+        <form class="form-horizontal" data-ng-submit="create()" novalidate>
+            <fieldset>
+                <div class="form-group">
+                    <!--Product Code-->
+                    <label class="control-label" for="name">Product Code</label>
+                    <div class="controls">
+                        <input type="text"  id="name" class="form-control" placeholder="Name" readonly data-ng-model='productCode'></input>
+                    </div>
+                    <!--Product Version-->
+                    <label class="control-label" for="productVersion">Product Version</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="productVersion" id="productVersion" class="form-control" 
+                         required readonly>
+
+                        
+
+                        <div class="facebook" data-ng-show='showProgress'>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+
+                    </div>
+
+                    <!--ET svn url-->
+                    <label class="control-label" for="etjarSvnUrl">Subversion Link</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="etjarSvnUrl" id="etjarSvnUrl" class="form-control" 
+                         readonly>
+
+                         <div class="facebook" data-ng-show='showProgress'>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+
+                    <!--Product Directory-->
+                    <label class="control-label" for="productDirectory">Product Directory</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="productDirectory" id="productDirectory" class="form-control" data-ng-change='onCWSDirectoryInput()'
+                        required>
+                    </div>
+
+                    
+
+                </div> 
+                <div class="form-group">
+                    <input type="submit" value='Save' class="btn btn-black form-control " data-ng-class='[disableAddCWS]'>
+                </div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+            </fieldset>
+        </form>
+    </div>
+</section>
