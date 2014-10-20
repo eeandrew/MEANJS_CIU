@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('PasswordController', ['$scope', '$stateParams', '$http', '$location', 'Authentication',
-	function($scope, $stateParams, $http, $location, Authentication) {
+angular.module('users').controller('PasswordController', ['$scope', '$stateParams', '$http', '$location', 'Authentication','usSpinnerService',
+	function($scope, $stateParams, $http, $location, Authentication,usSpinnerService) {
 		$scope.authentication = Authentication;
 
 		//If user is signed in then redirect back home
@@ -10,16 +10,18 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 		// Submit forgotten password account id
 		$scope.askForPasswordReset = function() {
 			$scope.success = $scope.error = null;
-
+            usSpinnerService.spin('spinner-forget');
 			$http.post('/auth/forgot', $scope.credentials).success(function(response) {
 				// Show user success message and clear form
 				$scope.credentials = null;
 				$scope.success = response.message;
+                usSpinnerService.stop('spinner-forget');
 
 			}).error(function(response) {
 				// Show user error message and clear form
 				$scope.credentials = null;
 				$scope.error = response.message;
+                usSpinnerService.stop('spinner-forget');
 			});
 		};
 

@@ -27,6 +27,7 @@ module.exports = function(db) {
 
 	// Globbing model files
 	config.getGlobbedFiles('./app/models/**/*.js').forEach(function(modelPath) {
+        //path.resovle: turn relative path into absolute path, if already absolute path, return
 		require(path.resolve(modelPath));
 	});
 
@@ -60,7 +61,7 @@ module.exports = function(db) {
 
 	// Set views path and view engine
 	app.set('view engine', 'server.view.html');
-	app.set('views', './app/views');
+	app.set('views', './app/views');  //this path is relative to root
 
 	// Environment dependent middleware
 	if (process.env.NODE_ENV === 'development') {
